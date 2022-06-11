@@ -1,0 +1,95 @@
+﻿@*@model WebClient_AP.Models.PersonalAccount*@
+@model WebClient_AP.Models.View.PersonalAccount_Group_PersonVM
+@{
+    ViewData["Title"] = "Residents of P.A.";
+}
+<h1>Residents</h1>
+
+<h4>PersonalAccount</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Residents">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="IdAccount" />
+            <input type="hidden" asp-for="FirstName" />
+            <input type="hidden" asp-for="LastName" />
+            <input type="hidden" asp-for="MiddleName" />
+            <input type="hidden" asp-for="City" />
+            <input type="hidden" asp-for="Street" />
+            <input type="hidden" asp-for="Building" />
+            <input type="hidden" asp-for="AppartmentId" />
+            <input type="hidden" asp-for="Square" />
+            <input type="hidden" asp-for="DateOpen" />
+            <input type="hidden" asp-for="DateClose" />
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary mx-2 my-2"/>
+                <a asp-action="List" class="btn btn-secondary">Back to List</a>
+            </div>
+                <table class="table table-bordered table-striped">
+                    <thead>
+                        <tr>
+                            <th>
+                                IdPerson
+                            </th>
+                            <th>
+                                Name
+                            </th>
+                            <th>
+                                Last_name
+                            </th>
+                            <th>
+                                Middle_name
+                            </th>
+                            <th>
+                                Date_since
+                            </th>
+                            <th>
+                                Date_to
+                            </th>
+                            <th>
+                                IsLiving
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @for(int i = 0; i < Model.GroupPersons.Count; i++)
+                        {
+                            <tr>
+                                <td>
+                                    @Html.DisplayFor(modelItem => modelItem.GroupPersons[i].IdPerson)
+                                    <input hidden asp-for="@Model.GroupPersons[i].IdPerson"/>
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => modelItem.GroupPersons[i].FirstName)
+                                    <input hidden asp-for="@Model.GroupPersons[i].FirstName"/>
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => modelItem.GroupPersons[i].LastName)
+                                    <input hidden asp-for="@Model.GroupPersons[i].LastName"/>
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => modelItem.GroupPersons[i].MiddleName)
+                                    <input hidden asp-for="@Model.GroupPersons[i].MiddleName"/>
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => modelItem.GroupPersons[i].DateSince)
+                                    <input hidden asp-for="@Model.GroupPersons[i].DateSince"/>
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => modelItem.GroupPersons[i].DateTo)
+                                    <input hidden asp-for="@Model.GroupPersons[i].FirstName"/>
+                                </td>
+                                <td>
+                                    @Html.CheckBoxFor(modelItem => modelItem.GroupPersons[i].isLiving)
+                                </td>
+                            </tr>
+                        } 
+                    </tbody>
+                </table>
+        </form>
+    </div>
+</div>
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

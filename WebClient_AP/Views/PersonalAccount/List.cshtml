@@ -1,0 +1,106 @@
+﻿@model IList<WebClient_AP.Models.View.PersonalAccount_GroupVM>
+@{
+    ViewData["Title"] = "List of P.A.";
+}
+<div class="row pt-6">
+    <div class="col">
+        <h1>List of Personal Accounts</h1>
+        <hr />
+        @using (Html.BeginForm("ListSearch", "PersonalAccount", FormMethod.Get))
+        {      
+            <div class="form-group row">
+                <div class="col d-flex justify-content-between">
+                    <div class="col-4">
+                        <input  type="text" class="form-control" placeholder="Input" name="search"/>
+                    </div>
+                    <div class="col mx-2"> 
+                        <input type="submit" class="btn btn-primary" value="Search" id="btnSubmit"/> 
+                    </div>
+                    <div class="col-xs-2">
+                        <a asp-action="Create" class=" btn btn-primary float-end" >Create New</a>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+    <table class="table table-bordered table-striped my-2">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.First().IdAccount)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.First().FirstName)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.First().LastName)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.First().MiddleName)
+                </th>
+                <th>
+                    Address
+                </th>    
+                <th>
+                    @Html.DisplayNameFor(model => model.First().DateOpen)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.First().DateClose)
+                </th>
+                <th>
+                    Quantity of residents
+                </th>
+                <th>
+                    Changes
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+        @foreach (var item in Model) {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.IdAccount)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.FirstName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.LastName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.MiddleName)
+                    </td>
+                    <td>
+                        @item.City, @item.Street @item.Building, @item.AppartmentId
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.DateOpen)
+                    </td>
+                    <td>
+                        @if (item.DateClose == null)
+                        {
+                            @using (Html.BeginForm("CloseAP", "PersonalAccount", FormMethod.Post))
+                            {
+                                <input type="hidden" name="paVmID" value="@item.IdAccount"/>
+                                <input type="submit" class="btn btn-outline-warning form-control" value="Close"/>
+                            }
+                        }
+                        else
+                        {
+                            @Html.DisplayFor(modelItem => item.DateClose)
+                        }
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Quantity)
+                    </td>
+                    <td>
+                        <div>
+                            <a asp-action="Details" asp-route-accId="@item.IdAccount" class="btn btn-primary mx-2">Details</a>
+                            <a asp-action="Residents" asp-route-accId="@item.IdAccount" class="btn btn-danger">Residents</a>
+                        </div>
+                    </td>
+                </tr>
+        }
+        </tbody>
+    </table>
+</div>
